@@ -11,6 +11,398 @@ body {
 
 }
 
+
+Session 1: Database Fundamentals & DDL
+1. Create Database
+sql
+Copy
+Edit
+CREATE DATABASE company_db;
+2. Create Table
+sql
+Copy
+Edit
+CREATE TABLE employee (
+    employee_id INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    age INT,
+    department_id INT,
+    salary DECIMAL(10, 2)
+);
+3. Drop Database/Table
+sql
+Copy
+Edit
+DROP DATABASE company_db;
+DROP TABLE employee;
+4. Create User & Grant Privileges
+sql
+Copy
+Edit
+CREATE USER 'new_user'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON company_db.* TO 'new_user'@'localhost';
+5. Insert Data
+sql
+Copy
+Edit
+INSERT INTO employee (employee_id, name, age, department_id, salary)
+VALUES (1, 'Alice', 30, 101, 60000.00);
+6. Alter Table
+sql
+Copy
+Edit
+ALTER TABLE employee ADD hire_date DATE;
+ALTER TABLE employee MODIFY salary DECIMAL(12,2);
+Session 2 & 3: Querying Data
+7. SELECT with WHERE
+sql
+Copy
+Edit
+SELECT * FROM employee WHERE salary > 50000;
+8. ORDER BY
+sql
+Copy
+Edit
+SELECT * FROM employee ORDER BY age DESC;
+9. INNER JOIN
+sql
+Copy
+Edit
+SELECT e.name, d.department_name
+FROM employee e
+JOIN department d ON e.department_id = d.department_id;
+10. Aliases
+sql
+Copy
+Edit
+SELECT e.name AS EmployeeName, d.department_name AS Dept
+FROM employee e JOIN department d ON e.department_id = d.department_id;
+Session 4 & 5: Aggregates & Advanced Queries
+11. Aggregate Functions
+sql
+Copy
+Edit
+SELECT COUNT(*) AS total_employees FROM employee;
+SELECT AVG(salary) FROM employee;
+12. GROUP BY and HAVING
+sql
+Copy
+Edit
+SELECT department_id, COUNT(*) AS total
+FROM employee
+GROUP BY department_id
+HAVING COUNT(*) > 2;
+13. Subqueries
+sql
+Copy
+Edit
+SELECT * FROM employee 
+WHERE salary > (SELECT AVG(salary) FROM employee);
+DML (INSERT, UPDATE, DELETE)
+14. Update Data
+sql
+Copy
+Edit
+UPDATE employee SET salary = 70000 WHERE name = 'Alice';
+15. Delete Data
+sql
+Copy
+Edit
+DELETE FROM employee WHERE employee_id = 1;
+Transactions
+sql
+Copy
+Edit
+START TRANSACTION;
+UPDATE employee SET salary = salary + 1000 WHERE department_id = 102;
+SAVEPOINT before_bonus;
+UPDATE employee SET salary = salary + 5000 WHERE department_id = 103;
+ROLLBACK TO before_bonus;
+COMMIT;
+Indexes
+sql
+Copy
+Edit
+CREATE INDEX idx_salary ON employee(salary);
+Views
+sql
+Copy
+Edit
+CREATE VIEW high_earners AS
+SELECT name, salary FROM employee WHERE salary > 70000;
+Bonus Practice Queries from TCS Interview Set
+Top 5 Highest Paid Employees
+
+sql
+Copy
+Edit
+SELECT name, salary FROM employee ORDER BY salary DESC LIMIT 5;
+Employees with Salary Between
+
+sql
+Copy
+Edit
+SELECT * FROM employee WHERE salary BETWEEN 50000 AND 80000;
+Second Highest Salary
+
+sql
+Copy
+Edit
+SELECT DISTINCT salary FROM employee ORDER BY salary DESC LIMIT 1 OFFSET 1;
+Employees with Duplicate Names
+
+sql
+Copy
+Edit
+SELECT name, COUNT(*) FROM employee GROUP BY name HAVING COUNT(*) > 1;
+Employee Names with 5 Characters
+
+sql
+Copy
+Edit
+SELECT name FROM employee WHERE LENGTH(name) = 5;
+Like with Second Character 'e'
+
+sql
+Copy
+Edit
+SELECT name FROM employee WHERE name LIKE '_e%';
+
+✅ 1. Records with sal > 2000 and comm > 200
+sql
+Copy
+Edit
+SELECT * FROM emp
+WHERE sal > 2000 AND comm > 200;
+✅ 2. Records with job = 'Clerk' or sal > 2000
+sql
+Copy
+Edit
+SELECT * FROM emp
+WHERE job = 'Clerk' OR sal > 2000;
+✅ 3. Records with sal = 1250 or 1100 or 2850
+sql
+Copy
+Edit
+SELECT * FROM emp
+WHERE sal IN (1250, 1100, 2850);
+✅ 4. Employees with sal > 1250 and < 2850
+sql
+Copy
+Edit
+SELECT * FROM emp
+WHERE sal > 1250 AND sal < 2850;
+✅ 5. Employees with name ending with 'AS'
+sql
+Copy
+Edit
+SELECT * FROM emp
+WHERE ename LIKE '%AS';
+✅ 6. Employees with job starting with 'C' and ending with 'K'
+sql
+Copy
+Edit
+SELECT * FROM emp
+WHERE job LIKE 'C%K';
+✅ 7. Job with 'L' at 3rd position and 'M' at 3rd last position
+sql
+Copy
+Edit
+SELECT * FROM emp
+WHERE job LIKE '__L%' AND job LIKE '%M__';
+✅ 8. Records with sal NOT 1250 or 1100 or 2850
+sql
+Copy
+Edit
+SELECT * FROM emp
+WHERE sal NOT IN (1250, 1100, 2850);
+✅ 9. Employees with salary NOT >1250 and <2850
+sql
+Copy
+Edit
+SELECT * FROM emp
+WHERE NOT (sal > 1250 AND sal < 2850);
+✅ 10. Job starts with 'C', 'E' at 3rd position, ends with 'K'
+sql
+Copy
+Edit
+SELECT * FROM emp
+WHERE job LIKE 'C_E%K';
+✅ 11. Rows where commission is NULL
+sql
+Copy
+Edit
+SELECT * FROM emp
+WHERE comm IS NULL;
+✅ 12. Employees with sal IS NULL and name starts with 'S'
+sql
+Copy
+Edit
+SELECT * FROM emp
+WHERE sal IS NULL AND ename LIKE 'S%';
+✅ 13. Employees with job containing exactly 5 characters
+sql
+Copy
+Edit
+SELECT * FROM emp
+WHERE LENGTH(job) = 5;
+✅ 14. Employees where name starts with 'A' and job contains 5 characters
+sql
+Copy
+Edit
+SELECT * FROM emp
+WHERE ename LIKE 'A%' AND LENGTH(job) = 5;
+
+✅ 1. Employees in Dept 20, 30, 40
+sql
+Copy
+Edit
+SELECT ename, sal, deptno
+FROM emp
+WHERE deptno IN (20, 30, 40);
+✅ 2. Total salary: sal + comm + sal*0.10
+sql
+Copy
+Edit
+SELECT ename, sal, comm, 
+       (sal + IFNULL(comm, 0) + sal * 0.10) AS total_salary
+FROM emp;
+✅ 3. Employees joined before Jan 1, 1986 and salary between 1200–2500
+sql
+Copy
+Edit
+SELECT ename AS 'Employee Name', 
+       job AS 'Job Title'
+FROM emp
+WHERE hiredate < '1986-01-01' 
+  AND sal BETWEEN 1200 AND 2500;
+✅ 4. Employees under manager ID 7698
+sql
+Copy
+Edit
+SELECT empno, ename, deptno
+FROM emp
+WHERE mgr = 7698;
+✅ 5. Employees in dept 10 and 30
+sql
+Copy
+Edit
+SELECT ename, job, sal
+FROM emp
+WHERE deptno IN (10, 30);
+✅ 6. Concatenate name with deptno as ‘Emp info’
+sql
+Copy
+Edit
+SELECT CONCAT(ename, ', ', deptno) AS 'Emp info'
+FROM emp;
+✅ 7. Employees without a manager
+sql
+Copy
+Edit
+SELECT *
+FROM emp
+WHERE mgr IS NULL;
+✅ 8. Employees joined between Jan 1, 1981 and Mar 31, 1983
+sql
+Copy
+Edit
+SELECT ename, deptno, hiredate
+FROM emp
+WHERE hiredate BETWEEN '1981-01-01' AND '1983-03-31'
+ORDER BY hiredate ASC;
+✅ 9. Job contains 'AGE'
+sql
+Copy
+Edit
+SELECT *
+FROM emp
+WHERE job LIKE '%AGE%';
+✅ 11. Names starting with 'A' and ending with 'S' or having N in 2nd/3rd pos and ending with 'N' or 'S'
+sql
+Copy
+Edit
+SELECT *
+FROM emp
+WHERE (ename LIKE 'A%S')
+   OR ((SUBSTRING(ename, 2, 1) = 'N' OR SUBSTRING(ename, 3, 1) = 'N')
+       AND (ename LIKE '%N' OR ename LIKE '%S'));
+✅ 12. Names with _ character
+sql
+Copy
+Edit
+SELECT *
+FROM emp
+WHERE ename LIKE '%\_%' ESCAPE '\';
+✅ 13. 3rd Highest Paid Employee
+sql
+Copy
+Edit
+SELECT *
+FROM emp
+ORDER BY sal DESC
+LIMIT 1 OFFSET 2;
+✅ 14. Employee with Highest Commission
+sql
+Copy
+Edit
+SELECT *
+FROM emp
+WHERE comm IS NOT NULL
+ORDER BY comm DESC
+LIMIT 1;
+✅ 15. ASCII value of 1st character of job
+sql
+Copy
+Edit
+SELECT ename, job, ASCII(SUBSTRING(job, 1, 1)) AS ascii_value
+FROM emp;
+✅ 16. Code = First 3 letters of ename + job
+sql
+Copy
+Edit
+SELECT empno, ename, job,
+       CONCAT(LEFT(ename, 3), LEFT(job, 3)) AS code
+FROM emp;
+🔤 Single Row Functions
+✅ 1. Generate Emails
+sql
+Copy
+Edit
+SELECT ename, job,
+       CONCAT(SUBSTRING(ename, 2, 4), SUBSTRING(job, 2, 3), '@mycompany.com') AS email
+FROM emp;
+✅ 2. Employees who joined in September
+sql
+Copy
+Edit
+SELECT *
+FROM emp
+WHERE MONTH(hiredate) = 9;
+✅ 3. Employees with 18+ years experience
+sql
+Copy
+Edit
+SELECT empno, ename, deptno, 
+       TIMESTAMPDIFF(YEAR, hiredate, CURDATE()) AS experience
+FROM emp
+WHERE TIMESTAMPDIFF(YEAR, hiredate, CURDATE()) >= 18
+ORDER BY experience DESC;
+✅ 4. Employees joined on 3rd of any month
+sql
+Copy
+Edit
+SELECT *
+FROM emp
+WHERE DAY(hiredate) = 3;
+✅ 5. Employees joined between 1981 and 1983
+sql
+Copy
+Edit
+SELECT *
+FROM emp
+WHERE YEAR(hiredate) BETWEEN 1981 AND 1983;
+
 .heading {
     display: flex;
     align-items: center;
