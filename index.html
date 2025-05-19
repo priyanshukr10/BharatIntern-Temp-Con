@@ -12,6 +12,210 @@
 <body>
     <div class="heading">
 
+import math
+def add(a,b):
+    return a+b
+def sub(a,b):
+    return a-b
+def mult(a,b):
+    return a*b
+def div(a,b):
+    return a/b
+def sqrt(a):
+    return a**0.5
+def sin(angle_degree):
+    angle_rad = math.pi / 180 * angle_degree
+    return math.sin(angle_rad)
+def cos(angle_degree):
+    angle_rad = math.pi / 180 * angle_degree
+    return math.cos(angle_rad)
+
+
+print("calculator Menu")
+print("""
+1.add 2.sub 3.mult 4.div 5.sqrt 6.sin 7.cos 8.exit
+""")
+choice = int(input("Enter your choice"))
+match(choice):
+    case 1:
+        n1 = int(input("Enter first no"))
+        n2 = int(input("Enter second no"))
+        res =add(n1,n2)
+        print("result is", res)
+        res = (lambda a,b : a+b)(n1,n2)
+        print("result is", res)
+    case 2:
+        n1 = int(input("Enter first no"))
+        n2 = int(input("Enter second no"))
+        res =sub(n1,n2)
+        print("result is", res)
+        res = (lambda a,b : a-b)(n1,n2)
+        print("result is", res)
+    case 3:
+        n1 = int(input("Enter first no"))
+        n2 = int(input("Enter second no"))
+        res =mult(n1,n2)
+        print("result is", res)
+        res = (lambda a,b : a*b)(n1,n2)
+        print("result is", res)
+    case 4:
+        n1 = int(input("Enter first no"))
+        n2 = int(input("Enter second no"))
+        res =div(n1,n2)
+        print("result is", res)
+        res = (lambda a,b : a/b)(n1,n2)
+        print("result is", res)
+    case 5:
+        n1 = int(input("Enter NO to take sqrt"))
+        res =sqrt(n1)
+        print("result is", res)
+    case 6:
+        angle = int(input("Enter Angle in degrees"))
+        res =sin(angle)
+        print("result is", res)
+    case 7:
+        angle = int(input("Enter Angle in degrees"))
+        res =cos(angle)
+        print("result is", res)
+    case _:
+        print("Invalid input. Exiting....")
+    
+
+    1. Check if a number is even (user input)
+python
+Copy
+Edit
+def is_even():
+    num = int(input("Enter a number: "))
+    if num % 2 == 0:
+        print(True)
+    else:
+        print(False)
+
+is_even()
+2. Print numbers divisible by 11 from a list (user input)
+python
+Copy
+Edit
+def divisible_by_11():
+    numbers = input("Enter numbers separated by spaces: ").split()
+    numbers = list(map(int, numbers))
+    for n in numbers:
+        if n % 11 == 0:
+            print(n)
+
+divisible_by_11()
+3. Check if string is palindrome (user input)
+python
+Copy
+Edit
+def is_palindrome():
+    s = input("Enter a string: ")
+    if s == s[::-1]:
+        print(1)
+    else:
+        print(0)
+
+is_palindrome()
+4. Check if number is prime (user input)
+python
+Copy
+Edit
+def is_prime():
+    num = int(input("Enter a number: "))
+    if num <= 1:
+        print(False)
+        return
+    for i in range(2, int(num**0.5) + 1):
+        if num % i == 0:
+            print(False)
+            return
+    print(True)
+
+is_prime()
+5. Print alternate characters starting from 2nd character (user input)
+python
+Copy
+Edit
+def print_alternate_chars():
+    s = input("Enter a string: ")
+    print(s[1::2])
+
+print_alternate_chars()
+6. Print all keys of a dictionary (user input)
+python
+Copy
+Edit
+def print_keys():
+    n = int(input("How many key-value pairs? "))
+    d = {}
+    for _ in range(n):
+        key = input("Enter key: ")
+        value = input("Enter value: ")
+        d[key] = value
+    print("Keys are:")
+    for key in d.keys():
+        print(key)
+
+print_keys()
+7. Print value of "name" if "rollno" is 100 (user input)
+python
+Copy
+Edit
+def print_name_if_rollno_100():
+    n = int(input("How many key-value pairs? "))
+    d = {}
+    for _ in range(n):
+        key = input("Enter key: ")
+        value = input("Enter value: ")
+        if key == "rollno":
+            value = int(value)  # convert rollno to int
+        d[key] = value
+
+    if d.get("rollno") == 100:
+        print(d.get("name"))
+    else:
+        print("Condition not met.")
+
+print_name_if_rollno_100()
+8. Print all strings with 's' exactly 2 times (user input)
+python
+Copy
+Edit
+def print_strings_with_two_s():
+    strings = input("Enter strings separated by spaces: ").split()
+    for s in strings:
+        if s.count('s') == 2:
+            print(s)
+
+print_strings_with_two_s()
+9. Print dictionaries containing key "id" from list of dictionaries (user input)
+python
+Copy
+Edit
+def print_dicts_with_id():
+    n = int(input("How many dictionaries? "))
+    dict_list = []
+    for _ in range(n):
+        m = int(input("How many key-value pairs in this dictionary? "))
+        d = {}
+        for __ in range(m):
+            key = input("Enter key: ")
+            value = input("Enter value: ")
+            d[key] = value
+        dict_list.append(d)
+
+    print("Dictionaries containing 'id':")
+    for d in dict_list:
+        if "id" in d:
+            print(d)
+
+print_dicts_with_id()
+
+
+
+
+        
         <h1>Temperature Converter</h1>
     </div>
     <div class="temperature-box">
